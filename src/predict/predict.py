@@ -5,11 +5,12 @@ GUI for diabetes prediction.
 """
 import sys
 
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QHBoxLayout, QApplication, QMessageBox
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QHBoxLayout, QApplication
 from PyQt5.QtGui import QDoubleValidator, QFont
-from PyQt5.QtCore import Qt, QLine
+from PyQt5.QtCore import Qt
 
-import diabetes
+from src.model import training
+
 
 class Diabetes(QWidget):
 
@@ -144,7 +145,7 @@ class Diabetes(QWidget):
     def test_input(self) -> None:
         """ test for diabetes"""
         my_dict = {"B":float(self.l1.text()), "C":float(self.l2.text()),"D":float(self.l3.text()), "E":float(self.l4.text()), "F": float(self.l5.text())}
-        output = diabetes.check_input(my_dict)
+        output = training.check_input(my_dict)
         #print(self.output)
         #self.setFixedSize(850, 342)
         self.report_subhead.setText("Reports")

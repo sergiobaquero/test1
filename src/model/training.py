@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 
 #For training
 def train():
-    dataset = pd.read_csv('pima.csv')
+    dataset = pd.read_csv('/data/pima.csv')
     X = dataset[['F','D','E','B','C']]
     Y = dataset[['I']]
     

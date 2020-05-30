@@ -12,7 +12,7 @@ import sys
 base = 'Win32GUI' if sys.platform=='win32' else None
 
 executables = [
-    Executable('gui.py', base=base, targetName = 'diabetes_prediction')
+    Executable('predict.py', base=base, targetName = 'diabetes_prediction')
 ]
 
 setup(name='Diabetes Prediction',
