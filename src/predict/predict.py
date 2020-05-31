@@ -5,12 +5,11 @@ GUI for diabetes prediction.
 """
 import sys
 
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QHBoxLayout, QApplication
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QHBoxLayout, QApplication, QMessageBox
 from PyQt5.QtGui import QDoubleValidator, QFont
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QLine
 
-from src.model import training
-
+import diabetes
 
 class Diabetes(QWidget):
 
@@ -77,23 +76,23 @@ class Diabetes(QWidget):
         self.v1_box.addLayout(self.h0)
         self.h1.addWidget(self.t1)
         self.h1.addWidget(self.l1)
-        self.h1.addWidget(self.r1)        
+        self.h1.addWidget(self.r1)
         self.v1_box.addLayout(self.h1)
         self.h2.addWidget(self.t2)
         self.h2.addWidget(self.l2)
-        self.h2.addWidget(self.r2)       
+        self.h2.addWidget(self.r2)
         self.v1_box.addLayout(self.h2)
         self.h3.addWidget(self.t3)
         self.h3.addWidget(self.l3)
-        self.h3.addWidget(self.r3)       
+        self.h3.addWidget(self.r3)
         self.v1_box.addLayout(self.h3)
         self.h4.addWidget(self.t4)
         self.h4.addWidget(self.l4)
-        self.h4.addWidget(self.r4)      
+        self.h4.addWidget(self.r4)
         self.v1_box.addLayout(self.h4)
         self.h5.addWidget(self.t5)
         self.h5.addWidget(self.l5)
-        self.h5.addWidget(self.r5)      
+        self.h5.addWidget(self.r5)
         self.v1_box.addLayout(self.h5)
         self.h6 = QHBoxLayout()
         self.submit.clicked.connect(lambda: self.test_input())
@@ -145,7 +144,7 @@ class Diabetes(QWidget):
     def test_input(self) -> None:
         """ test for diabetes"""
         my_dict = {"B":float(self.l1.text()), "C":float(self.l2.text()),"D":float(self.l3.text()), "E":float(self.l4.text()), "F": float(self.l5.text())}
-        output = training.check_input(my_dict)
+        output = diabetes.check_input(my_dict)
         #print(self.output)
         #self.setFixedSize(850, 342)
         self.report_subhead.setText("Reports")
@@ -157,7 +156,7 @@ class Diabetes(QWidget):
             self.results.setText("Diagnosis suggests that patient does not suffers from diabetes.")
         else:
             self.results.setText("Our diagnosis suggests patient does suffer from diabetes.\nPlease get checked soon.")
-        self.results.setFont(QFont("Arial",14, weight=QFont.Bold))           
+        self.results.setFont(QFont("Arial",14, weight=QFont.Bold))
 
     def mwindow(self) -> None:
         """ window features are set here and application is loaded into display"""
