@@ -7,7 +7,10 @@ LABEL maintainer="Sergio Baquero"
 # Create a symlink with a unique name to the Flask app's static resources.
 # This volume can then get mounted and used by another container.
 #RUN ln -s /var/www/app/static /var/www/app2-static
-VOLUME /var/www/app2-static
+
+ENV PKL_DIR /results
+RUN mkdir -p $PKL_DIR
+WORKDIR $PKL_DIR
 
 # Expose the port where uWSGI will run
 EXPOSE 5000
