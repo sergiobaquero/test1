@@ -24,6 +24,7 @@ def train():
     #Save Model As Pickle File
     with open('svc.pkl','wb') as m:
         pickle.dump(svc,m)
+    time.sleep(600)
     test(X_test,Y_test)
 
 #Test accuracy of the model
