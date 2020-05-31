@@ -22,13 +22,13 @@ def train():
     svc=model.fit(X_train,Y_train)
     
     #Save Model As Pickle File
-    with open('./results/svc.pkl','wb') as m:
+    with open('svc.pkl','wb') as m:
         pickle.dump(svc,m)
     test(X_test,Y_test)
 
 #Test accuracy of the model
 def test(X_test,Y_test):
-    with open('./results/svc.pkl','rb') as mod:
+    with open('svc.pkl','rb') as mod:
         p=pickle.load(mod)
     
     pre=p.predict(X_test)
@@ -48,7 +48,7 @@ def find_data_file(filename):
 
 def check_input(data) ->int :
     df=pd.DataFrame(data=data,index=[0])
-    with open(find_data_file('./results/svc.pkl'),'rb') as model:
+    with open(find_data_file('svc.pkl'),'rb') as model:
         p=pickle.load(model)
     op=p.predict(df)
     return op[0]
