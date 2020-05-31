@@ -10,7 +10,7 @@ LABEL maintainer="Sergio Baquero"
 
 ENV PKL_DIR /results
 RUN mkdir -p $PKL_DIR
-WORKDIR $PKL_DIR
+
 
 # Expose the port where uWSGI will run
 EXPOSE 5000
