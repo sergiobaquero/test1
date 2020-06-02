@@ -2,4 +2,4 @@ numpy
 pandas
 scipy
 scikit-learn
-PyQt5
+#PyQt5
