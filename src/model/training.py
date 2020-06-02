@@ -33,6 +33,7 @@ def test(X_test,Y_test):
         p=pickle.load(mod)
     
     pre=p.predict(X_test)
+    print("LA PRECISION CON LOS DATOS DE TEST ES DE:"
     print (accuracy_score(Y_test,pre)) #Prints the accuracy of the model
 
 
