@@ -36,13 +36,7 @@ node('docker-slave') {
    }
    stage('Results') {
        //withCredentials([usernamePassword(credentialsId: 'gituser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-        //                       script {
-       //                 env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
-       //             }
-        //sh 'curl -v -u admin:piticlines --upload-file svc.pkl http://18.184.88.67:8081/repository/maven-releases/org/svc/3.0/svc-3.0.pkl'
-        //sh 'cd src/model'
-        //sh 'curl -u admin:piticlines -X GET http://18.184.88.67:8081/repository/maven-releases/org/svc/3.0/svc-3.0.pkl > svc.pkl'
-
+      
       // }
       //junit '**/target/surefire-reports/TEST-*.xml'
       //archiveArtifacts 'target/*.jar'
