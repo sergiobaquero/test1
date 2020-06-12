@@ -13,12 +13,12 @@ import parameters as params
 
 #For training
 def train():
-    dataset = pd.read_csv('./data/pima.csv')
+    dataset = pd.read_csv('./data/'params.source_file)
     X = dataset[['F','D','E','B','C']]
     Y = dataset[['I']]
     
     #train test split
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = params.test_size, random_state = 101)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = params.test_size, random_state = params.random_state)
     
     from sklearn.svm import SVC
     model = SVC(kernel='linear')
