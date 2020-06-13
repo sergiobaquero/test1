@@ -44,6 +44,9 @@ def test():
     pre=p.predict(X)
     print("LA PRECISION CON LOS DATOS DE TESTTTTTTTTTT ES DE:")
     print (accuracy_score(Y,pre)) #Prints the accuracy of the model
+    file = open(“accuracy.txt”,”w”) 
+    file.write(accuracy_score(Y,pre)) 
+    file.close() 
 
 
 def find_data_file(filename):
