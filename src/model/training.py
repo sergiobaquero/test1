@@ -13,7 +13,8 @@ import parameters as params
 
 #For training
 def train():
-    dataset = pd.read_csv('./data/'params.source_file)
+    file='./data/'+params.source_file
+    dataset = pd.read_csv(file)
     X = dataset[['F','D','E','B','C']]
     Y = dataset[['I']]
     
