@@ -42,10 +42,11 @@ def test():
         p=pickle.load(mod)
     
     pre=p.predict(X)
+    accur=accuracy_score(Y,pre)
     print("LA PRECISION CON LOS DATOS DE TESTTTTTTTTTT ES DE:")
-    print (accuracy_score(Y,pre)) #Prints the accuracy of the model
+    print (accur) #Prints the accuracy of the model
     file = open("accuracy.txt","w") 
-    file.write(accuracy_score(Y,pre)) 
+    file.write(str(accur)) 
     file.close() 
 
 
