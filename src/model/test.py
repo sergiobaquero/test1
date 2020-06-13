@@ -45,7 +45,7 @@ def test():
     accur=accuracy_score(Y,pre)
     print("LA PRECISION CON LOS DATOS DE TESTTTTTTTTTT ES DE:")
     print (accur) #Prints the accuracy of the model
-    file = open("accuracy.txt","w") 
+    file = open(".accuracy.txt","w") 
     file.write(str(accur)) 
     file.close() 
 
