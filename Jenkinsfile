@@ -21,7 +21,7 @@ node('docker-slave') {
             docker rm entrenamiento
             rm svc.pkl
 
-            echo "EL GIT COMMIT ES:"
+            echo "HOLA EL GIT COMMIT ES:"
             echo "$GIT_COMMIT"
             echo "EL JOB_BASE_NAME ES:"
             echo "$JOB_BASE_NAME"
