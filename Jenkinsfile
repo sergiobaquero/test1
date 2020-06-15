@@ -45,6 +45,9 @@ node('docker-slave') {
             precision=`cat .accuracy.txt`
             psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$JOB_NAME',$precision)"""
             '''
+
+            sh 'git rev-parse HEAD > commit'
+            def commit = readFile('commit').trim()
         }
    }
 
