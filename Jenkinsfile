@@ -23,6 +23,10 @@ node('docker-slave') {
 
             echo "EL GIT COMMIT ES:"
             echo "$GIT_COMMIT"
+            echo "EL JOB_BASE_NAME ES:"
+            echo "$JOB_BASE_NAME"
+            echo "EL CHANGE_ID ES:"
+            echo "$CHANGE_ID"
 
             #curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
             curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$BRANCH_NAME/$BUILD_ID/svc.pkl --output svc.pkl
