@@ -48,7 +48,5 @@ node('docker-slave') {
         }
    }
 
-
-
 }
 
