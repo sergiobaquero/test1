@@ -11,7 +11,8 @@ node('docker-slave') {
    }
    stage('Run') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-      echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}:
+      echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+
       @echo off
       echo GIT_COMMIT %GIT_COMMIT%
       echo GIT_BRANCH %GIT_BRANCH%
