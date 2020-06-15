@@ -11,7 +11,7 @@ node('docker-slave') {
    }
    stage('Run') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-      echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}: ${env.GIT_COMMIT}"
+      echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}: ${GIT_COMMIT}"
       sh '''
 
             docker rm -f entrenamiento || true
