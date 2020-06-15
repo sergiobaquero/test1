@@ -48,9 +48,10 @@ node('docker-slave') {
         }
    }
 
-   stage("Merge Master"){
+   stage(¡Merge Master'){
         git checkout master
         git pull . development
+
    }
 
 
