@@ -48,6 +48,7 @@ node('docker-slave') {
 
             sh 'git rev-parse HEAD > commit'
             def commit = readFile('commit').trim()
+
         }
    }
 
