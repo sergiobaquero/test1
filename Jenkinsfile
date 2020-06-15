@@ -16,16 +16,18 @@ node('docker-slave') {
 
             docker rm -f entrenamiento || true
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
-            curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl
-            #curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/models/$BUILD_ID/svc.pkl
+            #curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl
+            curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/models/$BRANCH_NAME/$BUILD_ID/svc.pkl
             docker rm entrenamiento
             rm svc.pkl
 
             echo "EL GIT COMMIT ES:"
             echo "$GIT_COMMIT"
 
-            curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
-            mv svc-$BUILD_ID.pkl svc.pkl
+            #curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
+            curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$BRANCH_NAME/$BUILD_ID/svc.pkl --output svc.pkl
+
+            #mv svc-$BUILD_ID.pkl svc.pkl
             docker rm -f test || true
             docker run --name test  -v "$(pwd)":/code sergiobaquero:trainingmodel python3 ./src/model/test.py
             docker rm test
