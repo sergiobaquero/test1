@@ -35,7 +35,7 @@ node('docker-slave') {
             echo "$CHANGE_ID"
             echo "LA BRANCH ES:"
             echo "$BRANCH_NAME"
-            echo" EL REPOSITORY"
+            echo "EL REPOSITORY"
             echo "${GIT_REPOSITORY}"
 
             #curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
