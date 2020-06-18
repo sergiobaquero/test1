@@ -16,10 +16,6 @@ checkout scm
 
             git rev-parse HEAD > .commit
             sha=`cat .commit`
-            echo "PRUEBA 1"
-            git rev-parse --abbrev-ref HEAD
-            echo "PRUEBA 2"
-            git rev-parse --short HEAD
 
             docker rm -f entrenamiento || true
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
@@ -28,16 +24,16 @@ checkout scm
             docker rm entrenamiento
             rm svc.pkl
 
-            echo "HOLA EL GIT COMMIT ES:"
-            echo "$GIT_COMMIT"
-            echo "EL JOB_BASE_NAME ES:"
-            echo "$JOB_BASE_NAME"
-            echo "EL CHANGE_ID ES:"
-            echo "$CHANGE_ID"
             echo "LA BRANCH ES:"
             echo "$BRANCH_NAME"
-            echo "EL REPOSITORY"
-            git describe --always
+            echo "JOB"
+            echo "$JOB_NAME"
+            echo "JOB_BASE_NAME"
+            echo "$JOB_BASE_NAME"
+            echo "FORK"
+            echo "$CHANGE_FORK"
+            echo "USER"
+            echo "$CHANGE_AUTHOR"
 
             #curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
             curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$BRANCH_NAME/$sha/svc.pkl --output svc.pkl
