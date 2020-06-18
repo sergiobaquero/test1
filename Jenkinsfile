@@ -15,6 +15,9 @@ node('docker-slave') {
       sh '''
             git rev-parse HEAD > .commit
             sha=`cat .commit`
+            echo "PRUEBA 1 git rev-parse --abbrev-ref HEAD"
+            echo "PRUEBA 2 git rev-parse --short HEAD"
+
             docker rm -f entrenamiento || true
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
             #curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl
