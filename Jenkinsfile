@@ -33,10 +33,8 @@ node('docker-slave') {
             echo "$JOB_BASE_NAME"
             echo "EL CHANGE_ID ES:"
             echo "$CHANGE_ID"
-            $CHANGE_ID
             echo "LA BRANCH ES:"
             echo "$BRANCH_NAME"
-            $BRANCH_NAME
             echo" EL REPOSITORY"
             echo "${GIT_REPOSITORY}"
 
