@@ -1,5 +1,5 @@
 node('docker-slave') {
-
+checkout scm
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
       //git 'https://github.com/sergiobaquero/test1'
@@ -13,6 +13,7 @@ node('docker-slave') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''
+
             git rev-parse HEAD > .commit
             sha=`cat .commit`
             echo "PRUEBA 1"
