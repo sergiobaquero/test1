@@ -15,8 +15,10 @@ node('docker-slave') {
       sh '''
             git rev-parse HEAD > .commit
             sha=`cat .commit`
-            echo "PRUEBA 1 git rev-parse --abbrev-ref HEAD"
-            echo "PRUEBA 2 git rev-parse --short HEAD"
+            echo "PRUEBA 1"
+            git rev-parse --abbrev-ref HEAD
+            echo "PRUEBA 2"
+            git rev-parse --short HEAD
 
             docker rm -f entrenamiento || true
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
