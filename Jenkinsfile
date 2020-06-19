@@ -8,12 +8,17 @@ checkout scm
    stage('Build') {
 
       sh '''
+          #!/bin/bash -xe
           rm $WORKSPACE/envvars || true
-          commit_user=$(git show -s --pretty=%cn)
-          echo "commit_user=\"$commit_user\"" >> $WORKSPACE/envvars
+          commit_user=$(git show -s --pretty=%an)
+          no_blank_commit_user=$(echo "$commit_user" | tr -d "[:space:]")
+          echo "commit_user=\"$no_blank_commit_user\"" >> $WORKSPACE/envvars
 
           sha=$(git rev-parse HEAD)
           echo "sha=\"$sha\"" >> $WORKSPACE/envvars
+
+          info=$(git config --list)
+          echo "$info"
 
           docker build -t sergiobaquero:trainingmodel .
       '''
