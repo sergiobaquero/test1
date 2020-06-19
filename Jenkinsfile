@@ -37,7 +37,7 @@ checkout scm
 
             type=${BRANCH_NAME:0:3}
 
-            if [ "$type" == 'PR-' ];
+            if [ '$type' == 'PR-' ];
             then
                $BRANCH_NAME='PR'
             fi
