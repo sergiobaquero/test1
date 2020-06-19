@@ -17,6 +17,13 @@ checkout scm
             git rev-parse HEAD > .commit
             sha=`cat .commit`
 
+            type=${BRANCH_NAME:0:3}
+
+            if [ "$type" == 'PR-' ];
+            then
+               BRANCH_NAME='PR'
+            fi
+
             docker rm -f entrenamiento || true
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
             #curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl
@@ -35,12 +42,7 @@ checkout scm
             echo "USER"
             echo "$CHANGE_AUTHOR"
 
-            type=${BRANCH_NAME:0:3}
 
-            if [ "$type" == 'PR-' ];
-            then
-               BRANCH_NAME='PR'
-            fi
 
 
             #curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
