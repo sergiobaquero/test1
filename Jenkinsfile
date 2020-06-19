@@ -28,7 +28,7 @@ checkout scm
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
             model_name=`cat .model_name.txt`
 
-            curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
+            curl -v -u $USER:$PASS --upload-file $model_name.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
             docker rm entrenamiento
             rm svc.pkl
 
