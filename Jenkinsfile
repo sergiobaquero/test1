@@ -15,6 +15,9 @@ checkout scm
           sha=$(git rev-parse HEAD)
           echo "sha=\"$sha\"" >> $WORKSPACE/envvars
 
+          info=$(git config --list)
+          echo "$info"
+
           docker build -t sergiobaquero:trainingmodel .
       '''
 
