@@ -94,9 +94,9 @@ checkout scm
             #train_duration=`cat .trainduration.txt`
             #test_duration=`cat .testduration.txt`
 
-            if [ "$CHANGE_AUTHOR" == '' ];
+            if [ -z "$CHANGE_AUTHOR" ];
             then
-              #CHANGE_AUTHOR = $commit_user
+              CHANGE_AUTHOR = $commit_user
               echo "HOLA"
             fi
             psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$traintime,$testtime,'$CHANGE_AUTHOR')"""
