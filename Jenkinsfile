@@ -9,7 +9,7 @@ checkout scm
 
       sh '''
           rm $WORKSPACE/envvars || true
-          commit_user=$(git show -s --pretty=%an)
+          commit_user=$(git show -s --pretty=%aN)
           echo "commit_user=\"$commit_user\"" >> $WORKSPACE/envvars
 
           sha=$(git rev-parse HEAD)
