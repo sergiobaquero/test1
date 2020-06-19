@@ -81,12 +81,13 @@ checkout scm
         withCredentials([string(credentialsId: 'postgres_insert_user', variable: 'USER')]) {
             sh '''
             . $WORKSPACE/envvars
-            echo "EL USUARIOS ES:"
-            echo "$commit_user"
-            precision=`cat .accuracy.txt`
-            model_name=`cat .model_name.txt`
-            train_duration=`cat .trainduration.txt`
-            test_duration=`cat .testduration.txt`
+
+            #echo "EL USUARIOS ES:"
+            #echo "$commit_user"
+            #precision=`cat .accuracy.txt`
+            #model_name=`cat .model_name.txt`
+            #train_duration=`cat .trainduration.txt`
+            #test_duration=`cat .testduration.txt`
             psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$train_duration,$test_duration,'$CHANGE_AUTHOR')"""
             '''
 
