@@ -33,7 +33,9 @@ checkout scm
             rm svc.pkl
             end=`date +%s`
             runtime=$((end-start))
+            echo "EL TIEMPO EEESSSSS"
             echo "$runtime"
+            echo "FIIIIN"
       '''
        }
     }
