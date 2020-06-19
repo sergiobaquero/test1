@@ -47,10 +47,11 @@ checkout scm
             start=`date +%s`
 
 
-            foo=$(git show -s --pretty=%an)
+            commit_user=$(git show -s --pretty=%an)
 
             echo "EL USUARIO ES:"
-            echo "$foo"
+            echo "$commit_user"
+            echo "commit_user=\"$commit_user\"" > $WORKSPACE/envvars
 
             echo "LA BRANCH ES:"
             echo "$BRANCH_NAME"
@@ -82,6 +83,9 @@ checkout scm
    stage('Results') {
         withCredentials([string(credentialsId: 'postgres_insert_user', variable: 'USER')]) {
             sh '''
+            . $WORKSPACE/envvars
+            echo "EL USUARIOS ES:"
+            echo "$commit_user"
             precision=`cat .accuracy.txt`
             model_name=`cat .model_name.txt`
             train_duration=`cat .trainduration.txt`
