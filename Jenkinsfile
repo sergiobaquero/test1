@@ -14,6 +14,14 @@ checkout scm
           no_blank_commit_user=$(echo "$commit_user" | tr -d "[:space:]")
           echo "commit_user=\"$no_blank_commit_user\"" >> $WORKSPACE/envvars
 
+          echo "COMMIT USER"
+          commit_user2=$(git show -s --pretty=%cn)
+          echo "$commit_user2"
+
+          echo "COMMIT email"
+          commit_email=$(git show -s --pretty=%ce)
+          echo "$commit_email"
+
           sha=$(git rev-parse HEAD)
           echo "sha=\"$sha\"" >> $WORKSPACE/envvars
 
@@ -104,7 +112,7 @@ checkout scm
               CHANGE_AUTHOR=$commit_user
               echo "HOLA"
             fi
-            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$traintime,$testtime,'$CHANGE_AUTHOR')"""
+            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
             '''
 
 
