@@ -39,7 +39,7 @@ checkout scm
 
             if [ "$type" == 'PR-' ];
             then
-               echo "HOLA"
+               BRANCH_NAME='PR'
             fi
 
 
