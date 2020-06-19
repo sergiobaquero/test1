@@ -35,6 +35,12 @@ checkout scm
             echo "USER"
             echo "$CHANGE_AUTHOR"
 
+            arr=($BRANCH_NAME)
+            # first two words
+            echo "${arr[@]:0:2}"
+
+
+
             #curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
             curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$BRANCH_NAME/$sha/svc.pkl --output svc.pkl
 
