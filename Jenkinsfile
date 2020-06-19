@@ -30,7 +30,7 @@ checkout scm
 
             curl -v -u $USER:$PASS --upload-file $model_name.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
             docker rm entrenamiento
-            rm svc.pkl
+            rm $model_name.pkl
 
             end=`date +%s`
             traintime=$((end-start))
