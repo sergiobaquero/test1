@@ -30,6 +30,9 @@ def train():
     with open(params.model_name+'.pkl','wb') as m:
         pickle.dump(svc,m)
     test(X_test,Y_test)
+    file = open(".model_name.txt","w")
+    file.write(str(params.model_name))
+    file.close()
 
 #Test accuracy of the model
 def test(X_test,Y_test):
