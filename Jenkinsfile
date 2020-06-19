@@ -28,7 +28,7 @@ checkout scm
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
             model_name=`cat .model_name.txt`
 
-            curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/svc.pkl
+            curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
             docker rm entrenamiento
             rm svc.pkl
 
@@ -45,6 +45,7 @@ checkout scm
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
             start=`date +%s`
+
             echo "LA BRANCH ES:"
             echo "$BRANCH_NAME"
             echo "JOB"
@@ -57,7 +58,7 @@ checkout scm
             echo "$CHANGE_AUTHOR"
 
             model_name=`cat .model_name.txt`
-            curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/svc.pkl --output svc.pkl
+            curl -v -u $USER:$PASS GET http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/svc.pkl --output $model_name.pkl
 
             docker rm -f test || true
             docker run --name test  -v "$(pwd)":/code sergiobaquero:trainingmodel python3 ./src/model/test.py
