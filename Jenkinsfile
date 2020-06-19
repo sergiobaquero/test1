@@ -8,6 +8,7 @@ checkout scm
    stage('Build') {
 
       sh '''
+          #!/bin/bash -xe
           rm $WORKSPACE/envvars || true
           commit_user=$(git show -s --pretty=%an) | sed 's/ //g'
           no_blank_commit_user=$(echo "$commit_user" | tr -d "[:space:]")
