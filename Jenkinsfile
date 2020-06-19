@@ -35,8 +35,12 @@ checkout scm
             echo "USER"
             echo "$CHANGE_AUTHOR"
 
-            echo "${BRANCH_NAME:0:3}"
+            type=${BRANCH_NAME:0:3}
 
+            if [ "$type" == 'PR-' ];
+            then
+               $BRANCH_NAME='PR'
+            fi
 
 
             #curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/maven-releases/org/svc/$BUILD_ID/svc-$BUILD_ID.pkl --output svc-$BUILD_ID.pkl
