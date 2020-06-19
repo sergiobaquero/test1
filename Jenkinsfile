@@ -10,7 +10,7 @@ checkout scm
       sh '''
           rm $WORKSPACE/envvars || true
           commit_user=$(git show -s --pretty=%an) | sed 's/ //g'
-          no_blank_commit_user=$(echo $commit_user | tr -d "[:space:]")
+          no_blank_commit_user=$(echo "$commit_user" | tr -d "[:space:]")
           echo "commit_user=\"$no_blank_commit_user\"" >> $WORKSPACE/envvars
 
           sha=$(git rev-parse HEAD)
