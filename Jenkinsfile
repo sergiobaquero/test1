@@ -57,6 +57,7 @@ checkout scm
             echo "USER"
             echo "$CHANGE_AUTHOR"
 
+            sha=`cat .commit`
             model_name=`cat .model_name.txt`
             curl -v -u $USER:$PASS GET http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl --output $model_name.pkl
 
