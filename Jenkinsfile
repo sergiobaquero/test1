@@ -6,8 +6,9 @@ checkout scm
 
    }
    stage('Build') {
-      rm $WORKSPACE/envvars
+
       sh '''
+          rm $WORKSPACE/envvars
           commit_user=$(git show -s --pretty=%an)
           echo "commit_user=\"$commit_user\"" >> $WORKSPACE/envvars
 
