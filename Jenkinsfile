@@ -59,7 +59,9 @@ checkout scm
      withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
+
             start=`date +%s`
+
             . $WORKSPACE/envvars
 
             curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl --output $model_name.pkl
@@ -71,7 +73,7 @@ checkout scm
             end=`date +%s`
             testtime=$((end-start))
 
-            echo "$testtime=\"$$testtime\"" >> $WORKSPACE/envvars
+            echo "testtime=\"$testtime\"" >> $WORKSPACE/envvars
 
         '''
 
