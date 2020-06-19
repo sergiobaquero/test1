@@ -13,7 +13,7 @@ checkout scm
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
-
+            start=`date +%s`
             git rev-parse HEAD > .commit
             sha=`cat .commit`
 
@@ -31,6 +31,9 @@ checkout scm
             curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/svc.pkl
             docker rm entrenamiento
             rm svc.pkl
+            end=`date +%s`
+            runtime=$((end-start))
+            echo "$runtime"
       '''
        }
     }
