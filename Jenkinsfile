@@ -31,11 +31,12 @@ checkout scm
             curl -v -u $USER:$PASS --upload-file svc.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/svc.pkl
             docker rm entrenamiento
             rm svc.pkl
+
             end=`date +%s`
-            runtime=$((end-start))
-            echo "EL TIEMPO EEESSSSS"
-            echo "$runtime"
-            echo "FIIIIN"
+            traintime=$((end-start))
+
+            echo "$traintime" > .trainduration.txt
+
       '''
        }
     }
@@ -43,6 +44,7 @@ checkout scm
      withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
+            start=`date +%s`
             echo "LA BRANCH ES:"
             echo "$BRANCH_NAME"
             echo "JOB"
@@ -60,6 +62,11 @@ checkout scm
             docker rm -f test || true
             docker run --name test  -v "$(pwd)":/code sergiobaquero:trainingmodel python3 ./src/model/test.py
             docker rm test
+
+            end=`date +%s`
+            testtime=$((end-start))
+
+            echo "$testtime" > .testduration.txt
         '''
 
     }
@@ -69,6 +76,8 @@ checkout scm
             sh '''
             precision=`cat .accuracy.txt`
             model_name=`cat .model_name.txt`
+            train_duration=`cat .trainduration.txt`
+            test_duration=`cat .testduration.txt`
             psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name','$CHANGE_AUTHOR')"""
             '''
 
