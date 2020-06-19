@@ -49,6 +49,7 @@ checkout scm
             echo "USER"
             echo "$CHANGE_AUTHOR"
 
+            model_name=`cat .model_name.txt`
             curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/svc.pkl --output svc.pkl
 
             docker rm -f test || true
@@ -62,8 +63,8 @@ checkout scm
         withCredentials([string(credentialsId: 'postgres_insert_user', variable: 'USER')]) {
             sh '''
             precision=`cat .accuracy.txt`
-
-            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$JOB_NAME',$precision)"""
+            model_name=`cat .model_name.txt`
+            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$JOB_NAME',$precision,'$model_name','$CHANGE_AUTHOR')"""
             '''
 
 
