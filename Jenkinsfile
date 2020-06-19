@@ -6,27 +6,41 @@ checkout scm
 
    }
    stage('Build') {
-      sh 'docker build -t sergiobaquero:trainingmodel .'
+      rm $WORKSPACE/envvars
+      sh '''
+          commit_user=$(git show -s --pretty=%an)
+          echo "commit_user=\"$commit_user\"" >> $WORKSPACE/envvars
+
+          sha=$(git rev-parse HEAD)
+          echo "sha=\"$sha\"" >> $WORKSPACE/envvars
+
+          docker build -t sergiobaquero:trainingmodel .
+      '''
 
    }
    stage('Run') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
+
             start=`date +%s`
-            git rev-parse HEAD > .commit
-            sha=`cat .commit`
+            . $WORKSPACE/envvars
+
+            #git rev-parse HEAD > .commit
+            #sha=`cat .commit`
 
             type=${BRANCH_NAME:0:3}
-
             if [ "$type" == 'PR-' ];
             then
                BRANCH_NAME='PR'
+               echo "BRANCH_NAME=\"$BRANCH_NAME\"" >> $WORKSPACE/envvars
             fi
 
             docker rm -f entrenamiento || true
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
+
             model_name=`cat .model_name.txt`
+            echo "model_name=\"$model_name\"" >> $WORKSPACE/envvars
 
             curl -v -u $USER:$PASS --upload-file $model_name.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
             docker rm entrenamiento
@@ -34,8 +48,8 @@ checkout scm
 
             end=`date +%s`
             traintime=$((end-start))
+            echo "traintime=\"$traintime\"" >> $WORKSPACE/envvars
 
-            echo "$traintime" > .trainduration.txt
 
       '''
        }
@@ -45,27 +59,8 @@ checkout scm
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
             start=`date +%s`
+            . $WORKSPACE/envvars
 
-
-            commit_user=$(git show -s --pretty=%an)
-
-            echo "EL USUARIO ES:"
-            echo "$commit_user"
-            echo "commit_user=\"$commit_user\"" > $WORKSPACE/envvars
-
-            echo "LA BRANCH ES:"
-            echo "$BRANCH_NAME"
-            echo "JOB"
-            echo "$JOB_NAME"
-            echo "JOB_BASE_NAME"
-            echo "$JOB_BASE_NAME"
-            echo "FORK"
-            echo "$CHANGE_FORK"
-            echo "USER"
-            echo "$CHANGE_AUTHOR"
-
-            sha=`cat .commit`
-            model_name=`cat .model_name.txt`
             curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl --output $model_name.pkl
 
             docker rm -f test || true
@@ -75,7 +70,8 @@ checkout scm
             end=`date +%s`
             testtime=$((end-start))
 
-            echo "$testtime" > .testduration.txt
+            echo "$testtime=\"$$testtime\"" >> $WORKSPACE/envvars
+
         '''
 
     }
