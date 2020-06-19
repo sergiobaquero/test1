@@ -94,7 +94,7 @@ checkout scm
             #train_duration=`cat .trainduration.txt`
             #test_duration=`cat .testduration.txt`
 
-            if [ $CHANGE_AUTHOR == '' ];
+            if [ "$CHANGE_AUTHOR" == '' ];
             then
               CHANGE_AUTHOR = $commit_user
             fi
