@@ -37,7 +37,7 @@ checkout scm
 
             arr=($BRANCH_NAME)
             # first two words
-            echo "${arr[@]:0:2}"
+            echo "${arr[@]:0:3}"
 
 
 
