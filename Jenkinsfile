@@ -12,7 +12,7 @@ checkout scm
    stage('Run') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-      sh '''
+      sh '''#!/bin/bash -xe
 
             git rev-parse HEAD > .commit
             sha=`cat .commit`
