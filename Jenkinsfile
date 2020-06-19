@@ -10,7 +10,7 @@ checkout scm
       sh '''
           #!/bin/bash -xe
           rm $WORKSPACE/envvars || true
-          commit_user=$(git show -s --pretty=%an) | sed 's/ //g'
+          commit_user=$(git show -s --pretty=%an)
           no_blank_commit_user=$(echo "$commit_user" | tr -d "[:space:]")
           echo "commit_user=\"$no_blank_commit_user\"" >> $WORKSPACE/envvars
 
