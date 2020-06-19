@@ -46,6 +46,12 @@ checkout scm
       sh '''#!/bin/bash -xe
             start=`date +%s`
 
+
+            foo=$(git show -s --pretty=%an)
+
+            echo "EL USUARIO ES:"
+            echo "$foo"
+
             echo "LA BRANCH ES:"
             echo "$BRANCH_NAME"
             echo "JOB"
