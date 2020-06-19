@@ -35,7 +35,7 @@ checkout scm
             echo "USER"
             echo "$CHANGE_AUTHOR"
 
-            arr=($BRANCH_NAME)
+            arr=$BRANCH_NAME
             # first two words
             echo "${arr[@]:0:3}"
 
