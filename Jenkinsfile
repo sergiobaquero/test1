@@ -67,7 +67,7 @@ checkout scm
             sh '''
             precision=`cat .accuracy.txt`
             model_name=`cat .model_name.txt`
-            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$JOB_NAME',$precision,'$model_name','$CHANGE_AUTHOR')"""
+            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name','$CHANGE_AUTHOR')"""
             '''
 
 
