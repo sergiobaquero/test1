@@ -35,8 +35,7 @@ checkout scm
             echo "USER"
             echo "$CHANGE_AUTHOR"
 
-            arr=$BRANCH_NAME
-            echo "${arr:0:3}"
+            echo "${BRANCH_NAME:0:3}"
 
 
 
