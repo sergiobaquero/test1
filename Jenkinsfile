@@ -70,6 +70,9 @@ checkout scm
             docker run --name test  -v "$(pwd)":/code sergiobaquero:trainingmodel python3 ./src/model/test.py
             docker rm test
 
+            precision=`cat .accuracy.txt`
+            echo "precision=\"$precision\"" >> $WORKSPACE/envvars
+
             end=`date +%s`
             testtime=$((end-start))
 
