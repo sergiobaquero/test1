@@ -117,7 +117,7 @@ checkout scm
 
             scp -pr $WORKSPACE/src/predict/* ubuntu@172.31.36.254:$HOME/$model_name
             ssh 172.31.36.254
-            tocuh perico.txt
+            touch perico.txt
             pwd
             ls -lrt
             ls -lrt $HOME/$model_name
