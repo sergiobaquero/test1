@@ -112,9 +112,10 @@ checkout scm
               CHANGE_AUTHOR=$commit_user
               echo "HOLA"
             fi
+
             psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
 
-            scp -r /path/to/directory ubuntu@172.31.36.254:/path/to/destination
+            scp -r $WORKSPACE/predict/* ubuntu@172.31.36.254:$HOME/
             ssh 172.31.36.254
             touch prueba.txt
             exit
