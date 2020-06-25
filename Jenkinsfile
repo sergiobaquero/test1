@@ -1,8 +1,8 @@
 node('docker-slave') {
 checkout scm
 //   stage('Preparation') { // for display purposes
-//      // Get some code from a GitHub repository
-//      //git 'https://github.com/sergiobaquero/test1'
+      // Get some code from a GitHub repository
+      //git 'https://github.com/sergiobaquero/test1'
 //  }
    stage('Build') {
 
