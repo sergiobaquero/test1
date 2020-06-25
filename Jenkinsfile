@@ -1,10 +1,9 @@
 node('docker-slave') {
 checkout scm
-   stage('Preparation') { // for display purposes
-      // Get some code from a GitHub repository
-      //git 'https://github.com/sergiobaquero/test1'
-
-   }
+#   stage('Preparation') { // for display purposes
+#      // Get some code from a GitHub repository
+#      //git 'https://github.com/sergiobaquero/test1'
+#   }
    stage('Build') {
 
       sh '''
@@ -50,6 +49,9 @@ checkout scm
             end=`date +%s`
             traintime=$((end-start))
             echo "traintime=\"$traintime\"" >> $WORKSPACE/envvars
+
+            source_file=`cat .source_file.txt`
+            echo "source_file=\"$source_file\"" >> $WORKSPACE/envvars
       '''
        }
     }
@@ -90,7 +92,7 @@ checkout scm
               CHANGE_AUTHOR=$commit_user
             fi
 
-            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
+            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name','$source_file',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
 
             '''
 
