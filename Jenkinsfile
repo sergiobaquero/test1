@@ -19,7 +19,6 @@ checkout scm
 
           docker build -t sergiobaquero:trainingmodel .
       '''
-
    }
    stage('Train model') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
@@ -79,7 +78,6 @@ checkout scm
             echo "testtime=\"$testtime\"" >> $WORKSPACE/envvars
 
         '''
-
     }
    }
       stage('Insert Database') {
@@ -95,8 +93,6 @@ checkout scm
             psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name','$source_file',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
 
             '''
-
-
         }
    }
    stage('Deploy') {
