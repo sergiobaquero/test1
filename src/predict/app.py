@@ -31,7 +31,6 @@ def predict():
     with open(model_path,'rb') as model:
         p=pickle.load(model)
     op=p.predict(df)
-    print (op[0])
 
     if op[0]==0:
         msg="Unsuccess"
