@@ -43,7 +43,7 @@ def test():
     
     pre=p.predict(X)
     accur=accuracy_score(Y,pre)
-    print("LA PRECISION CON LOS DATOS DE TESTTTTTTTTTT ES DE:")
+    print("LA PRECISION CON LOS DATOS DE TEST ES DE:")
     print (accur) #Prints the accuracy of the model
     file = open(".accuracy.txt","w") 
     file.write(str(accur)) 
