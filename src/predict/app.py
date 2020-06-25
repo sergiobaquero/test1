@@ -22,7 +22,7 @@ def predict():
         values = json.load(f)
 
     df = pd.DataFrame(json_normalize(values))
-    my_dict = {"B": float(df['glucose']), "C":float(df['bp']),"D":float(df['trc']), "E":float(df['insulin']), "F": float(df['bmi'])}
+    my_dict = {"B": float(df['glucose']), "C":float(df['bp']),"D":float(df['trc']), "E":float(df['bmi']), "F": float(df['insulin'])}
     print (my_dict)
     model_path=os.getcwd()+"/static/model/diabetes.pkl"
 
