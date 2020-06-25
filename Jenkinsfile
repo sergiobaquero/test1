@@ -107,8 +107,6 @@ checkout scm
             ssh 172.31.36.254 cp boostrap.sh $HOME/$model_name
             ssh 172.31.36.254 sh $HOME/$model_name/boostrap.sh
 
-            exit
-
             '''
    }
 
