@@ -40,6 +40,9 @@ checkout scm
             docker rm -f entrenamiento || true
             docker run --name entrenamiento  -v "$(pwd)":/code sergiobaquero:trainingmodel
 
+            model_name=`cat .model_name.txt`
+            echo "model_name=\"$model_name\"" >> $WORKSPACE/envvars
+
             curl -v -u $USER:$PASS --upload-file $model_name.pkl http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
             docker rm entrenamiento
             rm $model_name.pkl
@@ -47,11 +50,6 @@ checkout scm
             end=`date +%s`
             traintime=$((end-start))
             echo "traintime=\"$traintime\"" >> $WORKSPACE/envvars
-
-            model_name=`cat .model_name.txt`
-            echo "model_name=\"$model_name\"" >> $WORKSPACE/envvars
-
-
       '''
        }
     }
@@ -82,7 +80,7 @@ checkout scm
 
     }
    }
-   stage('Results') {
+      stage('Insert database') {
         withCredentials([string(credentialsId: 'postgres_insert_user', variable: 'USER')]) {
             sh '''
             . $WORKSPACE/envvars
@@ -94,6 +92,15 @@ checkout scm
 
             psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
 
+            '''
+
+
+        }
+   }
+   stage('Deploy') {
+            sh '''
+            . $WORKSPACE/envvars
+
             scp -pr $WORKSPACE/src/predict/* ubuntu@172.31.36.254:$HOME/$model_name
 
             ssh 172.31.36.254 cp Dockerfile $HOME/$model_name
@@ -103,9 +110,6 @@ checkout scm
             exit
 
             '''
-
-
-        }
    }
 
 }
