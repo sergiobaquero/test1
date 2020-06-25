@@ -22,7 +22,7 @@ checkout scm
       '''
 
    }
-   stage('Run') {
+   stage('Train model') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
@@ -53,7 +53,7 @@ checkout scm
       '''
        }
     }
-    stage('Test') {
+    stage('Test model') {
      withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
@@ -80,7 +80,7 @@ checkout scm
 
     }
    }
-      stage('Insert database') {
+      stage('Insert Database') {
         withCredentials([string(credentialsId: 'postgres_insert_user', variable: 'USER')]) {
             sh '''
             . $WORKSPACE/envvars
