@@ -98,7 +98,7 @@ checkout scm
    stage('Deploy') {
             sh '''
             . $WORKSPACE/envvars
-            ssh-keygen -R 172.31.36.254
+
             scp -pr $WORKSPACE/src/predict/* ubuntu@172.31.36.254:$HOME/$model_name
 
             #Los ficheros Dockerfile y boostrap.sh estan en la imagen de aplicaciones. Solo se copia a la carpeta del proyecto,
