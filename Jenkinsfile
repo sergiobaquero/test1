@@ -99,15 +99,16 @@ checkout scm
             sh '''
             . $WORKSPACE/envvars
 
-            ssh 172.31.7.246 mkdir $HOME/$model_name || true
+            ssh ubuntu@172.31.7.246 mkdir $HOME/$model_name || true
             scp -pr $WORKSPACE/src/predict/* ubuntu@172.31.7.246:$HOME/$model_name
 
             #Los ficheros Dockerfile y boostrap.sh estan en la imagen de aplicaciones. Solo se copia a la carpeta del proyecto,
             #por si conviven varias aplicaciones desplegadas
 
-            ssh 172.31.7.246 cp Dockerfile $HOME/$model_name
-            ssh 172.31.7.246 cp boostrap.sh $HOME/$model_name
-            ssh 172.31.7.246 sh $HOME/$model_name/boostrap.sh http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
+            ssh ubuntu@172.31.7.246 cp Dockerfile $HOME/$model_name
+            ssh ubuntu@172.31.7.246 cp boostrap.sh $HOME/$model_name
+            ssh ubuntu@172.31.7.246 cp start.sh $HOME/$model_name
+            ssh ubuntu@172.31.7.246 sh $HOME/$model_name/boostrap.sh http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
 
             '''
    }
