@@ -108,7 +108,7 @@ checkout scm
             ssh ubuntu@172.31.7.246 cp Dockerfile $HOME/$model_name
             ssh ubuntu@172.31.7.246 cp boostrap.sh $HOME/$model_name
             ssh ubuntu@172.31.7.246 cp start.sh $HOME/$model_name
-            ssh ubuntu@172.31.7.246 sh $HOME/$model_name/boostrap.sh http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
+            ssh ubuntu@172.31.7.246 sh $HOME/$model_name/start.sh http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
 
             '''
    }
