@@ -103,6 +103,7 @@ checkout scm
 
             #Los ficheros Dockerfile y boostrap.sh estan en la imagen de aplicaciones. Solo se copia a la carpeta del proyecto,
             #por si conviven varias aplicaciones desplegadas
+            ssh-keygen -R 172.31.36.254
             ssh 172.31.36.254 cp Dockerfile $HOME/$model_name
             ssh 172.31.36.254 cp boostrap.sh $HOME/$model_name
             ssh 172.31.36.254 sh $HOME/$model_name/boostrap.sh http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl
