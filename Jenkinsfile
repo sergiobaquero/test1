@@ -98,7 +98,7 @@ checkout scm
    stage('Deploy') {
             sh '''
             . $WORKSPACE/envvars
-            ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "172.31.7.246"
+            ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "172.31.7.246" || true
             ssh ubuntu@172.31.7.246 mkdir $HOME/$model_name || true
             scp -pr $WORKSPACE/src/predict/* ubuntu@172.31.7.246:$HOME/$model_name
 
