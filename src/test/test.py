@@ -21,11 +21,13 @@ def test():
     X = dataset[['F','D','E','B','C']]
     Y = dataset[['I']]
 
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = params.test_size, random_state = params.random_state)
+
     with open(params.model_name+'.pkl','rb') as mod:
         p=pickle.load(mod)
 
-    pre=p.predict(X)
-    accur=accuracy_score(Y,pre)
+    pre=p.predict(X_test)
+    accur=accuracy_score(Y-test,pre)
     print("LA PRECISION CON LOS DATOS DE TEST ES DE:")
     print (accur) #Prints the accuracy of the model
     file = open(".accuracy.txt","w")
