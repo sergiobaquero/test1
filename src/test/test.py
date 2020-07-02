@@ -8,6 +8,7 @@ import pandas as pd
 import time
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
 sys.path.append("./")
 import parameters as params
 
@@ -30,6 +31,10 @@ def test():
     file = open(".accuracy.txt","w")
     file.write(str(accur))
     file.close()
+
+    print(confusion_matrix(y_test,y_pred))
+    print(classification_report(y_test,y_pred))
+
 
 if __name__=='__main__':
     test()
