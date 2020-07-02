@@ -34,8 +34,8 @@ def test():
     file.write(str(accur))
     file.close()
 
-    print(confusion_matrix(y_test,y_pred))
-    print(classification_report(y_test,y_pred))
+    print(confusion_matrix(y_test,pre))
+    print(classification_report(y_test,pre))
 
 
 if __name__=='__main__':
