@@ -1,47 +1,32 @@
 node('docker-slave') {
 checkout scm
-   stage('Preparation') { // for display purposes
+//   stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
       //git 'https://github.com/sergiobaquero/test1'
-
-   }
+//  }
    stage('Build') {
 
       sh '''
           #!/bin/bash -xe
           rm $WORKSPACE/envvars || true
+
           commit_user=$(git show -s --pretty=%an)
           no_blank_commit_user=$(echo "$commit_user" | tr -d "[:space:]")
           echo "commit_user=\"$no_blank_commit_user\"" >> $WORKSPACE/envvars
 
-          echo "COMMIT USER"
-          commit_user2=$(git show -s --pretty=%cn)
-          echo "$commit_user2"
-
-          echo "COMMIT email"
-          commit_email=$(git show -s --pretty=%ce)
-          echo "$commit_email"
-
           sha=$(git rev-parse HEAD)
           echo "sha=\"$sha\"" >> $WORKSPACE/envvars
 
-          info=$(git config --list)
-          echo "$info"
-
           docker build -t sergiobaquero:trainingmodel .
       '''
-
    }
-   stage('Run') {
+   stage('Train model') {
     withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
 
             start=`date +%s`
             . $WORKSPACE/envvars
-
-            #git rev-parse HEAD > .commit
-            #sha=`cat .commit`
 
             type=${BRANCH_NAME:0:3}
             if [ "$type" == 'PR-' ];
@@ -64,11 +49,12 @@ checkout scm
             traintime=$((end-start))
             echo "traintime=\"$traintime\"" >> $WORKSPACE/envvars
 
-
+            source_file=`cat .source_file.txt`
+            echo "source_file=\"$source_file\"" >> $WORKSPACE/envvars
       '''
        }
     }
-    stage('Test') {
+    stage('Test model') {
      withCredentials([usernamePassword(credentialsId: 'NexusUser', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
       sh '''#!/bin/bash -xe
@@ -80,7 +66,7 @@ checkout scm
             curl -v -u $USER:$PASS -X GET http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl --output $model_name.pkl
 
             docker rm -f test || true
-            docker run --name test  -v "$(pwd)":/code sergiobaquero:trainingmodel python3 ./src/model/test.py
+            docker run --name test  -v "$(pwd)":/code sergiobaquero:trainingmodel python3 ./src/test/test.py
             docker rm test
 
             precision=`cat .accuracy.txt`
@@ -92,31 +78,39 @@ checkout scm
             echo "testtime=\"$testtime\"" >> $WORKSPACE/envvars
 
         '''
-
     }
    }
-   stage('Results') {
+      stage('Insert Database') {
         withCredentials([string(credentialsId: 'postgres_insert_user', variable: 'USER')]) {
             sh '''
             . $WORKSPACE/envvars
 
-            #echo "EL USUARIOS ES:"
-            #echo "$commit_user"
-            #precision=`cat .accuracy.txt`
-            #model_name=`cat .model_name.txt`
-            #train_duration=`cat .trainduration.txt`
-            #test_duration=`cat .testduration.txt`
-
             if [ -z "$CHANGE_AUTHOR" ];
             then
               CHANGE_AUTHOR=$commit_user
-              echo "HOLA"
             fi
-            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
+
+            psql -h 172.31.7.247 -U $USER -d postgres -c """INSERT INTO training VALUES ($BUILD_ID,current_timestamp,'$BRANCH_NAME',$precision,'$model_name','$source_file',$traintime,$testtime,'$CHANGE_AUTHOR','$sha')"""
+
             '''
-
-
         }
+   }
+   stage('Deploy') {
+            sh '''
+            . $WORKSPACE/envvars
+            ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "172.31.7.246" || true
+            ssh ubuntu@172.31.7.246 mkdir $HOME/$model_name || true
+            scp -pr $WORKSPACE/src/predict/* ubuntu@172.31.7.246:$HOME/$model_name
+
+            #Los ficheros Dockerfile y boostrap.sh estan en la imagen de aplicaciones. Solo se copia a la carpeta del proyecto,
+            #por si conviven varias aplicaciones desplegadas
+
+            ssh ubuntu@172.31.7.246 cp Dockerfile $HOME/$model_name
+            ssh ubuntu@172.31.7.246 cp boostrap.sh $HOME/$model_name
+            ssh ubuntu@172.31.7.246 cp start.sh $HOME/$model_name
+            ssh ubuntu@172.31.7.246 sh $HOME/$model_name/start.sh http://172.31.7.247:8081/repository/models/$model_name/$BRANCH_NAME/$sha/$model_name.pkl $HOME/$model_name/
+
+            '''
    }
 
 }

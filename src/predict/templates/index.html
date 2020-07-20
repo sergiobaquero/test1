@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Diabetes Prediction</title>
+    <style>
+        body{
+            background-image: repeating-radial-gradient(aquamarine,aqua,darkcyan);
+            background-repeat: no-repeat;
+            background-size: 100% 206%;
+        }
+        #btn{
+            height: 30px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            display: block;
+            font-size: 18px;
+        }
+        #btn:hover{
+            background-color: deepskyblue;
+        }
+        hr{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<center><h1>Welcome to Diabetes Prediction Portal</h1></center><br>
+<form action="/predict" method="post">
+    <br><label>Enter Glucose Level (70-180 mg/dl):</label><input type="text" name="glucose" placeholder="Glucose" required>
+    <br><label>Enter BP(Body Pressure) (80-140 mm Hg):</label><input type="text" name="bp" placeholder="BP(Blood Pressure)" required>
+    <br><label>Triceps skin fold thickness (10-50 mm):</label><input type="text" name="trc" placeholder="Triceps" required>
+    <br><label>Enter BMI(Body Mass Index) (10-50):</label><input type="text" name="bmi" placeholder="BMI(Body Mass Index)" required>
+    <br><label>Enter Insulin Level (15-276 mu U/ml):</label><input type="text" name="insulin" placeholder="Insulin Level" required><br><br>
+    <br><center><input type="submit" value="Submit" id="btn"></center>
+</form><br>
+<main><p><b>Note: </b><i>Body Mass Index (BMI) is a measure of body fat based on height and weight. Body Mass Index is a simple calculation using a person’s height and weight. The formula is BMI = kg/m<sup>2</sup> where kg is a person’s weight in kilograms and m<sup>2</sup> is their height in metres squared.
+    A BMI of 25.0 or more is overweight, while the healthy range is 18.5 to 24.9. BMI applies to most adults 18-65 years.</i></p></main><br>
+<p><b>Important Notice: </b><i>It is for only Educational purpose.</i></p>
+{% if msg=="Success" %}
+<hr/>
+<center><h1>Your Result:</h1><p style="color: red;"><strong><i>Our diagnosis suggests patient does suffer from diabetes.<br>Please get checked soon.</i></strong></center></p>
+{% endif %}
+{% if msg=="Unsuccess"  %}
+<hr/>
+<center><h2>Your Result:</h2><p style="color: green;"><strong><i>Diagnosis suggests that patient does not suffers from diabetes.</i></strong></center><br></p>
+
+{% endif %}
+</body>
+</html>

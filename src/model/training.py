@@ -33,6 +33,9 @@ def train():
     file = open(".model_name.txt","w")
     file.write(str(params.model_name))
     file.close()
+    file = open(".source_file.txt","w")
+    file.write(str(params.source_file))
+    file.close()
 
 #Test accuracy of the model
 def test(X_test,Y_test):
