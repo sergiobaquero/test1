@@ -1,4 +1,4 @@
 model_name="tfm_diabetes"
 source_file= "pima2.csv"
-test_size=0.20
+test_size=0.15
 random_state=20
